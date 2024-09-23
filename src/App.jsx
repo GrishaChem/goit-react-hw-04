@@ -25,8 +25,9 @@ const App = () => {
         setArticles((prev) => [...prev, ...data.results]);
         console.log(data.results);
         setIsLoading(false);
-      } catch {
+      } catch (error) {
         setIsError(true);
+        console.log(error);
       } finally {
         setIsLoading(false);
       }
