@@ -14,7 +14,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState();
 
   useEffect(() => {
     const getData = async () => {
@@ -37,9 +37,16 @@ const App = () => {
   const handleChangePage = () => {
     setPage((prev) => prev + 1);
   };
+
+  const handleSetQuery = (topic) => {
+    setQuery(topic);
+    setArticles([]);
+    setPage(1);
+  };
+
   return (
     <>
-      <SearchBar setQuery={setQuery} />
+      <SearchBar setQuery={handleSetQuery} />
       {!!articles.length && <ImageGallery results={articles} />}
       {isLoading && <Loader />}
       {isError && <h2>ERORR</h2>}

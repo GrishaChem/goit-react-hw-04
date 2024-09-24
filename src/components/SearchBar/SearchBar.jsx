@@ -7,11 +7,11 @@ const SearchBar = ({ setQuery }) => {
   };
 
   const handleSubmit = (values) => {
-    e.preventDefault();
-    if (inputValue.trim()) {
-      setQuery(inputValue); // Встановіть запит
-      setInputValue(""); // Очистіть ввід
-    }
+    // e.preventDefault();
+    // if (inputValue.trim()) {
+    //   setQuery(inputValue); // Встановіть запит
+    //   setInputValue(""); // Очистіть ввід
+    // }
     console.log(values);
     setQuery(values.query);
   };
