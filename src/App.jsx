@@ -8,6 +8,7 @@ import ImageGallery from "./components/ImageGallery/ImageGallery";
 import { ThreeDots } from "react-loader-spinner";
 import Loader from "./components/Loader/Loader";
 import LoadMoreBtn from "./components/LoadMore/LoadMoreBtn";
+import ErrorMes from "./components/ErrorMes/ErrorMes";
 
 const App = () => {
   const [articles, setArticles] = useState([]);
@@ -17,6 +18,10 @@ const App = () => {
   const [query, setQuery] = useState();
 
   useEffect(() => {
+    if (!query) {
+      return;
+    }
+
     const getData = async () => {
       try {
         setIsError(false);
@@ -40,8 +45,8 @@ const App = () => {
 
   const handleSetQuery = (topic) => {
     setQuery(topic);
-    setArticles([]);
     setPage(1);
+    setArticles([]);
   };
 
   return (
@@ -49,7 +54,7 @@ const App = () => {
       <SearchBar setQuery={handleSetQuery} />
       {!!articles.length && <ImageGallery results={articles} />}
       {isLoading && <Loader />}
-      {isError && <h2>ERORR</h2>}
+      {isError && <ErrorMes />}
       <LoadMoreBtn handleChangePage={handleChangePage} />
     </>
   );
