@@ -2,7 +2,7 @@ import React from "react";
 import ImageCard from "../ImageCard/ImageCard";
 import s from "../ImageGallery/ImageGallery.module.css";
 
-const ImageGallery = ({ results }) => {
+const ImageGallery = ({ results, onImageClick }) => {
   return (
     <div>
       <ul className={s.gallery}>
@@ -10,7 +10,10 @@ const ImageGallery = ({ results }) => {
           <li key={result.urls.small}>
             <ImageCard
               small={result.urls.small}
-              description={results.description}
+              description={result.description} // Поправлено results.description на result.description
+              onClick={
+                () => onImageClick(result.urls.regular, result.description) // Передаємо правильні дані
+              }
             />
           </li>
         ))}

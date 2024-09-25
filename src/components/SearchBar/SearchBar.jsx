@@ -1,5 +1,6 @@
 import { Field, Form, Formik } from "formik";
 import React from "react";
+import s from "../SearchBar/SearchBar.module.css";
 
 const SearchBar = ({ setQuery }) => {
   const initialValues = {
@@ -17,9 +18,9 @@ const SearchBar = ({ setQuery }) => {
   };
 
   return (
-    <div>
+    <div className={s.container}>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        <Form>
+        <Form className={s.form}>
           <Field name="query" />
           <button type="submit">Search</button>
         </Form>

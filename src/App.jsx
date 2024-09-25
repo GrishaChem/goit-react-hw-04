@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import SearchBar from "./components/SearchBar/SearchBar";
-import fetchImages from "./components/Service/Service";
+import { useState, useEffect } from "react";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
-import { ThreeDots } from "react-loader-spinner";
+import ImageModal from "./components/ImageModal/ImageModal";
+import fetchImages from "./components/Service/Service";
+import SearchBar from "./components/SearchBar/SearchBar";
 import Loader from "./components/Loader/Loader";
 import LoadMoreBtn from "./components/LoadMore/LoadMoreBtn";
 import ErrorMes from "./components/ErrorMes/ErrorMes";
@@ -15,7 +12,9 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [page, setPage] = useState(1);
-  const [query, setQuery] = useState();
+  const [query, setQuery] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     if (!query) {
@@ -28,17 +27,16 @@ const App = () => {
         setIsLoading(true);
         const data = await fetchImages(page, query);
         setArticles((prev) => [...prev, ...data.results]);
-        console.log(data.results);
         setIsLoading(false);
       } catch (error) {
         setIsError(true);
-        console.log(error);
       } finally {
         setIsLoading(false);
       }
     };
     getData();
   }, [page, query]);
+
   const handleChangePage = () => {
     setPage((prev) => prev + 1);
   };
@@ -49,13 +47,35 @@ const App = () => {
     setArticles([]);
   };
 
+  const openModal = (image, description) => {
+    setSelectedImage({ image, description }); // Передаємо і зображення, і опис
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setSelectedImage(null);
+  };
+
   return (
     <>
       <SearchBar setQuery={handleSetQuery} />
-      {!!articles.length && <ImageGallery results={articles} />}
+      {!!articles.length && (
+        <ImageGallery results={articles} onImageClick={openModal} />
+      )}
       {isLoading && <Loader />}
       {isError && <ErrorMes />}
-      <LoadMoreBtn handleChangePage={handleChangePage} />
+      {!!articles.length && <LoadMoreBtn handleChangePage={handleChangePage} />}
+
+      {/* Модальне вікно */}
+      {modalIsOpen && selectedImage && (
+        <ImageModal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          largeImage={selectedImage.image} // Передаємо велике зображення
+          description={selectedImage.description} // Передаємо опис
+        />
+      )}
     </>
   );
 };
