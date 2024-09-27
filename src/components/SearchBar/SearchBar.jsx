@@ -1,5 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import React from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import s from "../SearchBar/SearchBar.module.css";
 
 const SearchBar = ({ setQuery }) => {
@@ -8,11 +10,11 @@ const SearchBar = ({ setQuery }) => {
   };
 
   const handleSubmit = (values) => {
-    // e.preventDefault();
-    // if (inputValue.trim()) {
-    //   setQuery(inputValue); // Встановіть запит
-    //   setInputValue(""); // Очистіть ввід
-    // }
+    if (values.query.trim() === "") {
+      toast.error("Пошуковий запит не може бути порожнім!");
+      return;
+    }
+
     console.log(values);
     setQuery(values.query);
   };
@@ -25,18 +27,7 @@ const SearchBar = ({ setQuery }) => {
           <button type="submit">Search</button>
         </Form>
       </Formik>
-
-      {/* <header>
-        <form>
-          <input
-            type="text"
-            autoComplete="off" // Changed here
-            autoFocus // Changed here
-            placeholder="Search images and photos"
-          />
-          <button type="submit">Search</button>
-        </form>
-      </header> */}
+      <ToastContainer /> {/* Додано для відображення повідомлень */}
     </div>
   );
 };
