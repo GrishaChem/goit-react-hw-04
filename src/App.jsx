@@ -4,7 +4,7 @@ import ImageModal from "./components/ImageModal/ImageModal";
 import fetchImages from "./components/Service/Service";
 import SearchBar from "./components/SearchBar/SearchBar";
 import Loader from "./components/Loader/Loader";
-import LoadMoreBtn from "./components/LoadMore/LoadMoreBtn";
+import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ErrorMes from "./components/ErrorMes/ErrorMes";
 
 const App = () => {
